@@ -8,11 +8,15 @@ import java.util.Map;
 public class ElevatorUI extends JFrame implements ActionListener {
     private int positionX = 0, positionY, floorY5 = 400, floorY4 = 475, floorY3 = 550, floorY2 = 625, floorY1 = 700;
     private JLabel liveFloor;
-    private int liveFloorInt = 1;
+    private int liveFloorInt = 1, speedForElevator;
     private JPanel panelLiveFloor;
     private Map<Integer, JButton> floorButtons;
     private Map<Integer, JButton> floorOnButtons;
+    private Map<Integer, JButton> buttonForSpeedElevator;
     private int[] floorPositions;
+    private ToggleSwitch isServiceToggle;
+    private boolean isService = false;
+
 
     public ElevatorUI() {
         setTitle("Elevator Simulator");
@@ -61,6 +65,22 @@ public class ElevatorUI extends JFrame implements ActionListener {
         floorOnButtons.put(5, makeButtonOnFloor(500, 385, 50, 50, "<5>"));
 
 
+        isServiceToggle = new ToggleSwitch();
+        isServiceToggle.setBounds(480, 300, 25, 15);
+        isServiceToggle.addActionListener(this);
+        add(isServiceToggle);
+
+        JLabel labelService = new JLabel("Service");
+        labelService.setBounds(468, 323, 60, 15);
+        labelService.setFont(new Font("Arial", Font.ITALIC, 15));
+        add(labelService);
+
+        buttonForSpeedElevator = new HashMap<>();
+        buttonForSpeedElevator.put(1, buttonForSpeed(355, 140, 85, 30, "Speed lowly"));
+        buttonForSpeedElevator.put(2, buttonForSpeed(355, 180, 85, 30, "Speed Middle"));
+        buttonForSpeedElevator.put(3, buttonForSpeed(355, 220, 85, 30, "Speed Fast"));
+
+
     }
 
     public JButton makeFloor(int x, int y, int width, int height, String text) {
@@ -69,6 +89,19 @@ public class ElevatorUI extends JFrame implements ActionListener {
         button.setFont(new Font("Arial", Font.ITALIC, 15));
         button.setBackground(new Color(193, 192, 192));
         button.setForeground(new Color(244, 60, 36));
+        button.setFocusable(false);
+        button.setVisible(true);
+        button.addActionListener(this);
+        add(button);
+        return button;
+    }
+
+    public JButton buttonForSpeed(int x, int y, int width, int height, String text) {
+        JButton button = new JButton(text);
+        button.setBounds(x, y, width, height);
+        button.setFont(new Font("Arial", Font.ITALIC, 8));
+        button.setBackground(new Color(193, 192, 192));
+        button.setForeground(new Color(12, 155, 246));
         button.setFocusable(false);
         button.setVisible(true);
         button.addActionListener(this);
@@ -135,49 +168,93 @@ public class ElevatorUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         int targetFloor = 1;
         switch (e.getActionCommand()) {
+
             case "Floor 1":
-                targetFloor = 1;
-                floorButtons.get(1).setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
-                break;
+                if (isService == false) {
+                    targetFloor = 1;
+                    floorButtons.get(1).setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+                    break;
+                }
             case "<1>":
-                targetFloor = 1;
-                floorOnButtons.get(1).setForeground(Color.GREEN);
-                break;
+                if (isService == false) {
+                    targetFloor = 1;
+                    floorOnButtons.get(1).setForeground(Color.GREEN);
+                    break;
+                }
             case "Floor 2":
-                targetFloor = 2;
-                floorButtons.get(2).setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
-                break;
+                if (isService == false) {
+                    targetFloor = 2;
+                    floorButtons.get(2).setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+                    break;
+                }
             case "<2>":
-                targetFloor = 2;
-                floorOnButtons.get(2).setForeground(Color.GREEN);
-                break;
+                if (isService == false) {
+                    targetFloor = 2;
+                    floorOnButtons.get(2).setForeground(Color.GREEN);
+                    break;
+                }
             case "Floor 3":
-                targetFloor = 3;
-                floorButtons.get(3).setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
-                break;
+                if (isService == false) {
+                    targetFloor = 3;
+                    floorButtons.get(3).setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+                    break;
+                }
             case "<3>":
-                targetFloor = 3;
-                floorOnButtons.get(3).setForeground(Color.GREEN);
-                break;
+                if (isService == false) {
+                    targetFloor = 3;
+                    floorOnButtons.get(3).setForeground(Color.GREEN);
+                    break;
+                }
             case "Floor 4":
-                targetFloor = 4;
-                floorButtons.get(4).setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
-                break;
+                if (isService == false) {
+                    targetFloor = 4;
+                    floorButtons.get(4).setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+                    break;
+                }
             case "<4>":
-                targetFloor = 4;
-                floorOnButtons.get(4).setForeground(Color.GREEN);
-                break;
+                if (isService == false) {
+                    targetFloor = 4;
+                    floorOnButtons.get(4).setForeground(Color.GREEN);
+                    break;
+                }
             case "Floor 5":
-                targetFloor = 5;
-                floorButtons.get(5).setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
-                break;
+                if (isService == false) {
+                    targetFloor = 5;
+                    floorButtons.get(5).setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+                    break;
+                }
             case "<5>":
-                targetFloor = 5;
-                floorOnButtons.get(5).setForeground(Color.GREEN);
-                break;
+                if (isService == false) {
+                    targetFloor = 5;
+                    floorOnButtons.get(5).setForeground(Color.GREEN);
+                    break;
+                }
+            case "Speed lowly":
+                if (isService == false) {
+                    speedForElevator = 3000;
+                    break;
+                }
+            case "Speed Middle":
+                if (isService == false) {
+                    speedForElevator = 2000;
+                    break;
+                }
+            case "Speed Fast":
+                if (isService == false) {
+                    speedForElevator = 1000;
+                    break;
+                }
         }
 
-        ElevatorMoverThread moverThread = new ElevatorMoverThread(this, targetFloor, floorPositions, floorButtons, floorOnButtons);
+        if (e.getSource() == isServiceToggle) {
+            if (isServiceToggle.isSelected()) {
+                isService = true;
+            } else {
+                isService = false;
+            }
+        }
+
+        ElevatorMoverThread moverThread = new ElevatorMoverThread(this, targetFloor, speedForElevator, floorPositions, floorButtons, floorOnButtons, isServiceToggle, isService, buttonForSpeedElevator);
         moverThread.start();
     }
 

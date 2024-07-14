@@ -5,22 +5,29 @@ import java.util.Map;
 
 class ElevatorMoverThread extends Thread {
     private ElevatorUI elevatorUI;
-    private int targetFloor;
+    private int targetFloor, speedForElevator;
     private int[] floorPositions;
     private Map<Integer, JButton> floorButtons;
     private Map<Integer, JButton> floorOnButtons;
+    private Map<Integer, JButton> buttonForSpeedElevator;
+    private ToggleSwitch isServiceToggle;
+    private boolean isService = false;
 
-    public ElevatorMoverThread(ElevatorUI elevatorUI, int targetFloor, int[] floorPositions, Map floorButtons, Map floorOnButtons) {
+    public ElevatorMoverThread(ElevatorUI elevatorUI, int targetFloor, int speedForElevator, int[] floorPositions, Map floorButtons, Map floorOnButtons, ToggleSwitch isServiceToggle, boolean  isService, Map  buttonForSpeedElevator) {
         this.floorButtons = floorButtons;
         this.elevatorUI = elevatorUI;
         this.targetFloor = targetFloor;
         this.floorPositions = floorPositions;
         this.floorOnButtons = floorOnButtons;
+        this.isServiceToggle = isServiceToggle;
+        this.isService = isService;
+        this.speedForElevator = speedForElevator;
+        this.buttonForSpeedElevator = buttonForSpeedElevator;
     }
 
     @Override
     public void run() {
-        while(elevatorUI.getLiveFloorInt() != targetFloor){
+        while(elevatorUI.getLiveFloorInt() != targetFloor && isService == false && isServiceToggle.isSelected() == false){
             if(elevatorUI.getLiveFloorInt() < targetFloor){
                 elevatorUI.setLiveFloorInt(elevatorUI.getLiveFloorInt() + 1);
             }else if(elevatorUI.getLiveFloorInt() > targetFloor){
@@ -46,7 +53,7 @@ class ElevatorMoverThread extends Thread {
             elevatorUI.updateLiveFloorLabel();
             elevatorUI.repaint();
             try {
-                Thread.sleep(3000);
+                Thread.sleep(speedForElevator);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
