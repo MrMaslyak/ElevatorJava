@@ -16,6 +16,7 @@ public class ElevatorUI extends JFrame implements ActionListener {
     private int[] floorPositions;
     private ToggleSwitch isServiceToggle;
     private boolean isService = false;
+    private ArrowPanel arrowPanelUp, arrowPanelDown;
 
 
     public ElevatorUI() {
@@ -81,6 +82,15 @@ public class ElevatorUI extends JFrame implements ActionListener {
         buttonForSpeedElevator.put(3, buttonForSpeed(355, 220, 85, 30, "Speed Fast"));
 
 
+        arrowPanelUp  = new ArrowPanel(true);
+        arrowPanelUp.setBounds(15, 140, 35, 80);
+        arrowPanelUp.setBackground(new Color(237, 235, 235));
+        add(arrowPanelUp);
+
+        arrowPanelDown = new ArrowPanel(false);
+        arrowPanelDown.setBounds(50, 140, 35, 80);
+        arrowPanelDown.setBackground(new Color(237, 235, 235));
+        add(arrowPanelDown);
     }
 
     public JButton makeFloor(int x, int y, int width, int height, String text) {
@@ -254,7 +264,7 @@ public class ElevatorUI extends JFrame implements ActionListener {
             }
         }
 
-        ElevatorMoverThread moverThread = new ElevatorMoverThread(this, targetFloor, speedForElevator, floorPositions, floorButtons, floorOnButtons, isServiceToggle, isService, buttonForSpeedElevator);
+        ElevatorMoverThread moverThread = new ElevatorMoverThread(this, arrowPanelUp, arrowPanelDown,targetFloor, speedForElevator, floorPositions, floorButtons, floorOnButtons, isServiceToggle, isService, buttonForSpeedElevator);
         moverThread.start();
     }
 
